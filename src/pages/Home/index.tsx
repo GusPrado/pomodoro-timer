@@ -20,10 +20,17 @@ const newCycleValidationForm = zod.object({
     .max(60, 'Task cycle max interval is 60 minutes'),
 });
 
+type NewCycleFormData = zod.infer<typeof newCycleValidationForm>;
+
 export function Home() {
-  const { register, handleSubmit, watch, formState } = useForm({
-    resolver: zodResolver(newCycleValidationForm),
-  });
+  const { register, handleSubmit, watch, formState } =
+    useForm<NewCycleFormData>({
+      resolver: zodResolver(newCycleValidationForm),
+      defaultValues: {
+        task: '',
+        minutesAmount: 0,
+      },
+    });
 
   function handleCreateNewCycle(data: any) {
     console.log(data);
